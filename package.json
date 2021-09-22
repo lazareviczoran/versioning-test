@@ -1,0 +1,11 @@
+{
+  "name": "versioning-test",
+  "version": "0.0.1",
+  "description": "A demo project to test automated versioning on.",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "",
+  "license": "ISC"
+}
