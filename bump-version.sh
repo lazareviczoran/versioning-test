@@ -9,6 +9,7 @@ function join { local IFS="$1"; shift; echo "$*"; }
 
 VERSION=patch
 CURRENT_BRANCH=$GITHUB_HEAD_REF
+echo $CURRENT_BRANCH
 CURRENT_BRANCH_LOWER_CASE=$(echo "$CURRENT_BRANCH" | awk '{print tolower($0)}')
 echo $CURRENT_BRANCH_LOWER_CASE
 
@@ -62,6 +63,6 @@ fi
 git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 git config user.name "$GITHUB_ACTOR"
 
-git add .
-git commit -m "bumped version to v$NEW_TARGET_VERSION"
-git push origin $CURRENT_BRANCH
+# git add .
+# git commit -m "bumped version to v$NEW_TARGET_VERSION"
+# git push origin $CURRENT_BRANCH
