@@ -1,0 +1,20 @@
+name: Update version if necessary
+
+on:
+  pull_request:
+    branches:
+      - main
+    types: [opened, synchronize]
+
+jobs:
+  bump-version:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: bump version
+        run: ./versionBump.sh
+      # - uses: EndBug/add-and-commit@v7
+      #   with:
+      #     add: "wagr-schema.svg"
+      #     message: "Update schema image"
+      #     branch: ${{ github.head_ref }}
