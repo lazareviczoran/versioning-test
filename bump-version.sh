@@ -20,6 +20,8 @@ elif [[ "$CURRENT_BRANCH_LOWER_CASE" =~ ^release/.* ]]; then
     VERSION=major
 fi
 
+echo $VERSION
+
 ## move to project root
 cd "$(git rev-parse --show-toplevel)"
 
