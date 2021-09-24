@@ -18,7 +18,12 @@ jobs:
         # env:
         #   GITHUB_PAT: ${{ secrets.PAT }}
         run: |
-          ./bump-version.sh
+          echo "hello" > test.txt
+          git config --global user.name 'Your Name'
+          git config --global user.email 'your-username@users.noreply.github.com'
+          git commit -am "Automated report"
+          git push
+      # ./bump-version.sh
       # - uses: EndBug/add-and-commit@v7
       #   with:
       #     add: "wagr-schema.svg"
