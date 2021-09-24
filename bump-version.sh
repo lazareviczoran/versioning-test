@@ -8,7 +8,7 @@
 function join { local IFS="$1"; shift; echo "$*"; }
 
 VERSION=patch
-# CURRENT_BRANCH=$GITHUB_HEAD_REF
+CURRENT_BRANCH=$GITHUB_HEAD_REF
 CURRENT_BRANCH_LOWER_CASE=$(echo "$CURRENT_BRANCH" | awk '{print tolower($0)}')
 echo $CURRENT_BRANCH_LOWER_CASE
 
