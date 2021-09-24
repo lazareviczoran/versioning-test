@@ -12,7 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: bump version
-        run: ./versionBump.sh
+        run: ./bump-version.sh
       # - uses: EndBug/add-and-commit@v7
       #   with:
       #     add: "wagr-schema.svg"
