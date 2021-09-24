@@ -15,7 +15,6 @@ jobs:
           fetch-depth: "0"
       - name: bump version
         run: |
-          git branch -a
           ./bump-version.sh
       # - uses: EndBug/add-and-commit@v7
       #   with:
