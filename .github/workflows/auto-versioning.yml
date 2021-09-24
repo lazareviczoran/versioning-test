@@ -11,8 +11,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: "0"
+          token: ${{ secrets.PAT }}
       - name: bump version
-        run: ./versionBump.sh
+        # env:
+        #   GITHUB_PAT: ${{ secrets.PAT }}
+        run: |
+          ./bump-version.sh
       # - uses: EndBug/add-and-commit@v7
       #   with:
       #     add: "wagr-schema.svg"
