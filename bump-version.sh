@@ -25,6 +25,8 @@ echo $VERSION
 ## move to project root
 cd "$(git rev-parse --show-toplevel)"
 
+echo "1.2.3" | grep -Eo "\d+"
+
 git show remotes/origin/$GITHUB_BASE_REF:package.json | grep -E '"version": ".*?"' | grep -Eo "\d+"
 
 echo "printed out the version"
