@@ -47,6 +47,9 @@ if [[ "$NEW_TARGET_VERSION" == "$CURRENT_VERSION" ]]; then
 fi
 
 echo "different version, proceed to bumping relevant files"
+
+git checkout $CURRENT_BRANCH
+
 # update package.json and package-lock.json with new version
 awk -v version="$NEW_TARGET_VERSION" \
   '/"version": ".*?"/ && count < 1 { gsub("\"version\": \".*?\"", "\"version\": \""version"\""); count++ } {print}' package.json > \
@@ -65,7 +68,6 @@ git remote -v
 git branch -a
 echo "$CURRENT_BRANCH"
 # git remote set-url origin https://x-access-token:$GITHUB_PAT@github.com/lazareviczoran/versioning-test
-git checkout "remotes/origin/$CURRENT_BRANCH"
 git add .
 git commit -m "bumped version to v$NEW_TARGET_VERSION"
 git push
