@@ -48,12 +48,12 @@ fi
 echo "different version, proceed to bumping relevant files"
 # update package.json and package-lock.json with new version
 awk -v version="$NEW_TARGET_VERSION" \
-  '/\"version\": \".*?\"/ && count < 1 { gsub("\"version\": \".*?\"", "\"version\": \""version"\""); count++ } {print}' package.json > \
+  '/"version": ".*?"/ && count < 1 { gsub("\"version\": \".*?\"", "\"version\": \""version"\""); count++ } {print}' package.json > \
   package.json_tmp && \
   mv package.json_tmp package.json
 if [[ -f "package-lock.json" ]]; then
   awk -v version="$NEW_TARGET_VERSION" \
-    '/\"version\": \".*?\"/ && count < 1 { gsub("\"version\": \".*?\"", "\"version\": \""version"\""); count++ } {print}' package-lock.json > \
+    '/"version": ".*?"/ && count < 1 { gsub("\"version\": \".*?\"", "\"version\": \""version"\""); count++ } {print}' package-lock.json > \
     package-lock.json_tmp && \
     mv package-lock.json_tmp package-lock.json
 fi
