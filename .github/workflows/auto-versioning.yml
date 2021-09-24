@@ -11,8 +11,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: "0"
       - name: bump version
-        run: ./bump-version.sh
+        run: |
+          git branch -a
+          ./bump-version.sh
       # - uses: EndBug/add-and-commit@v7
       #   with:
       #     add: "wagr-schema.svg"
