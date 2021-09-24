@@ -63,4 +63,4 @@ git config user.name "$GITHUB_ACTOR"
 
 git add .
 git commit -m "bumped version to v$NEW_TARGET_VERSION"
-git push origin $CURRENT_BRANCH
+git push
