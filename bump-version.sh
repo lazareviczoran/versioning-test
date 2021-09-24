@@ -54,6 +54,7 @@ else
 fi
 NEW_TARGET_VERSION=$(join . ${VALUES[@]})
 echo $NEW_TARGET_VERSION
+echo "current version $CURRENT_VERSION - new version $NEW_TARGET_VERSION"
 
 if [[ "$NEW_TARGET_VERSION" == "$CURRENT_VERSION" ]]; then
     # current version is already set to target version, exiting script
@@ -63,16 +64,16 @@ fi
 
 echo "different version, proceed to bumping relevant files"
 ## update package.json and package-lock.json with new version
-awk -v version="$NEW_TARGET_VERSION" \
-  '/\"version\": \".*?\"/ && count < 1 { gsub("\"version\": \".*?\"", "\"version\": \""version"\""); count++ } {print}' package.json > \
-  package.json_tmp && \
-  mv package.json_tmp package.json
-if [[ -f "package-lock.json" ]]; then
-  awk -v version="$NEW_TARGET_VERSION" \
-    '/\"version\": \".*?\"/ && count < 1 { gsub("\"version\": \".*?\"", "\"version\": \""version"\""); count++ } {print}' package-lock.json > \
-    package-lock.json_tmp && \
-    mv package-lock.json_tmp package-lock.json
-fi
+# awk -v version="$NEW_TARGET_VERSION" \
+#   '/\"version\": \".*?\"/ && count < 1 { gsub("\"version\": \".*?\"", "\"version\": \""version"\""); count++ } {print}' package.json > \
+#   package.json_tmp && \
+#   mv package.json_tmp package.json
+# if [[ -f "package-lock.json" ]]; then
+#   awk -v version="$NEW_TARGET_VERSION" \
+#     '/\"version\": \".*?\"/ && count < 1 { gsub("\"version\": \".*?\"", "\"version\": \""version"\""); count++ } {print}' package-lock.json > \
+#     package-lock.json_tmp && \
+#     mv package-lock.json_tmp package-lock.json
+# fi
 
 git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 git config user.name "$GITHUB_ACTOR"
