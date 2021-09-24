@@ -27,18 +27,18 @@ cd "$(git rev-parse --show-toplevel)"
 
 echo "hello"
 
-echo "1.2.3" | grep -E "\d+"
+echo "1.2.3" | grep -P "\d+"
 
-git show remotes/origin/$GITHUB_BASE_REF:package.json | grep -E '"version": ".*?"' | grep -Eo "\d+"
+git show remotes/origin/$GITHUB_BASE_REF:package.json | grep -P '"version": ".*?"' | grep -Po "\d+"
 
 echo "printed out the version"
 
 ## increment version number from $GITHUB_BASE_REF
-VALUES=($(git show remotes/origin/$GITHUB_BASE_REF:package.json | grep -E '"version": ".*?"' | grep -Eo "\d+"))
+VALUES=($(git show remotes/origin/$GITHUB_BASE_REF:package.json | grep -P '"version": ".*?"' | grep -Po "\d+"))
 echo "about to print out new version"
 echo $(join . ${VALUES[@]})
 
-CURRENT_VALUES=($(grep -E '"version": ".*?"' package.json | grep -Eo "\d+"))
+CURRENT_VALUES=($(grep -P '"version": ".*?"' package.json | grep -Po "\d+"))
 CURRENT_VERSION=$(join . ${CURRENT_VALUES[@]})
 echo $CURRENT_VERSION
 if [ "$VERSION" == "major" ]; then
