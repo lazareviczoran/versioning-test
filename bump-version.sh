@@ -52,10 +52,12 @@ awk -v version="$NEW_TARGET_VERSION" \
   '/\"version\": \".*?\"/ && count < 1 { gsub("\"version\": \".*?\"", "\"version\": \""version"\""); count++ } {print}' package.json > \
   package.json_tmp && \
   mv package.json_tmp package.json
-awk -v version="$NEW_TARGET_VERSION" \
-  '/\"version\": \".*?\"/ && count < 1 { gsub("\"version\": \".*?\"", "\"version\": \""version"\""); count++ } {print}' package-lock.json > \
-  package-lock.json_tmp && \
-  mv package-lock.json_tmp package-lock.json
+if [[ -f "package-lock.json" ]]; then
+  awk -v version="$NEW_TARGET_VERSION" \
+    '/\"version\": \".*?\"/ && count < 1 { gsub("\"version\": \".*?\"", "\"version\": \""version"\""); count++ } {print}' package-lock.json > \
+    package-lock.json_tmp && \
+    mv package-lock.json_tmp package-lock.json
+fi
 
 git add .
 git commit -m "bumped version to v$NEW_TARGET_VERSION"
