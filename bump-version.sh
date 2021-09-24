@@ -35,11 +35,11 @@ CURRENT_VERSION_VALUES=($(grep -P '"version": ".*?"' package.json | grep -Po "\d
 CURRENT_VERSION=$(join . ${CURRENT_VERSION_VALUES[@]})
 if [[ "$NEW_TARGET_VERSION" == "$CURRENT_VERSION" ]]; then
     # current version is already set to target version, exiting script
-    echo "same version"
+    echo "the version is already set properly, stoping execution"
     exit 0
 fi
 
-echo "different version, proceed to bumping relevant files"
+echo "version needs to be updated to $NEW_TARGET_VERSION, proceed to bumping relevant files"
 
 git checkout $CURRENT_BRANCH
 
