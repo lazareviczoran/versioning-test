@@ -62,9 +62,9 @@ fi
 git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 git config user.name "$GITHUB_ACTOR"
 git branch -a
-echo "${GITHUB_HEAD_REF:11}"
+echo "$CURRENT_BRANCH"
 # git remote set-url origin https://x-access-token:$GITHUB_PAT@github.com/lazareviczoran/versioning-test
-git checkout "${GITHUB_HEAD_REF:11}"
+git checkout "remotes/origin/$CURRENT_BRANCH"
 git add .
 git commit -m "bumped version to v$NEW_TARGET_VERSION"
 git push
