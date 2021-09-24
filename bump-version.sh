@@ -59,6 +59,9 @@ if [[ -f "package-lock.json" ]]; then
     mv package-lock.json_tmp package-lock.json
 fi
 
+git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+git config user.name "$GITHUB_ACTOR"
+
 git add .
 git commit -m "bumped version to v$NEW_TARGET_VERSION"
 git push origin $CURRENT_BRANCH
