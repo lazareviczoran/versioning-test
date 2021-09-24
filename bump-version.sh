@@ -27,7 +27,7 @@ cd "$(git rev-parse --show-toplevel)"
 
 git branch -a
 
-git show remotes/origin/$GITHUB_BASE_REF:package.json | grep -E '"version": ".*?"'
+git show remotes/origin/$GITHUB_BASE_REF:package.json | grep -E '"version": ".*?"' | grep -Eo "\d+")
 
 ## increment version number from $GITHUB_BASE_REF
 VALUES=($(git show remotes/origin/$GITHUB_BASE_REF:package.json | grep -E '"version": ".*?"' | grep -Eo "\d+"))
