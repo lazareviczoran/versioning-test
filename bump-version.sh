@@ -5,12 +5,11 @@
 #   exit 1
 # fi
 
-echo ${GITHUB_REF##*/}
-echo $GITHUB_REF
 
 function join { local IFS="$1"; shift; echo "$*"; }
 
 VERSION=patch
+CURRENT_GH_BRANCH=${GITHUB_REF##*/}
 CURRENT_BRANCH=$GITHUB_HEAD_REF
 CURRENT_BRANCH_LOWER_CASE=$(echo "$CURRENT_BRANCH" | awk '{print tolower($0)}')
 
@@ -64,4 +63,4 @@ git config user.name "$GITHUB_ACTOR"
 
 git add .
 git commit -m "bumped version to v$NEW_TARGET_VERSION"
-git push origin "HEAD:remotes/heads/$CURRENT_BRANCH"
+git push origin "$CURRENT_GH_BRANCH:remotes/heads/$CURRENT_BRANCH"
