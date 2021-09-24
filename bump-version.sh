@@ -1,19 +1,12 @@
 #!/bin/bash
 
-# if [[ -z "${GITHUB_TOKEN}" ]]; then
-#   echo "The GITHUB_TOKEN env var is not set"
-#   exit 1
-# fi
-
-
 function join { local IFS="$1"; shift; echo "$*"; }
 
-VERSION=patch
-# CURRENT_GH_BRANCH=${GITHUB_REF##*/}
 CURRENT_GH_BRANCH=$GITHUB_REF
 CURRENT_BRANCH=$GITHUB_HEAD_REF
 CURRENT_BRANCH_LOWER_CASE=$(echo "$CURRENT_BRANCH" | awk '{print tolower($0)}')
 
+VERSION=patch
 # determine which part of the version number to bump
 if [[ "$CURRENT_BRANCH_LOWER_CASE" =~ ^feat/.* ]] || [[ "$CURRENT_BRANCH_LOWER_CASE" =~ ^feature/.* ]]; then
     VERSION=minor
@@ -62,12 +55,10 @@ if [[ -f "package-lock.json" ]]; then
     mv package-lock.json_tmp package-lock.json
 fi
 
+# commit changes to the branch
 git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 git config user.name "$GITHUB_ACTOR"
-git remote -v
-git branch -a
-echo "$CURRENT_BRANCH"
-# git remote set-url origin https://x-access-token:$GITHUB_PAT@github.com/lazareviczoran/versioning-test
+
 git add .
 git commit -m "bumped version to v$NEW_TARGET_VERSION"
 git push
