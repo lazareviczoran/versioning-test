@@ -26,9 +26,8 @@ echo $VERSION
 cd "$(git rev-parse --show-toplevel)"
 
 echo "hello"
-grep --version
 
-echo "1.2.3" | grep -Eo "\d+"
+echo "1.2.3" | grep -E "\d+"
 
 git show remotes/origin/$GITHUB_BASE_REF:package.json | grep -E '"version": ".*?"' | grep -Eo "\d+"
 
