@@ -61,6 +61,7 @@ fi
 
 git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 git config user.name "$GITHUB_ACTOR"
+# git remote set-url origin https://x-access-token:$GITHUB_PAT@github.com/lazareviczoran/versioning-test
 
 git add .
 git commit -m "bumped version to v$NEW_TARGET_VERSION"
