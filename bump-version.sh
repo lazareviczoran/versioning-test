@@ -53,16 +53,8 @@ git checkout $CURRENT_BRANCH
 
 # update package.json and package-lock.json with new version
 bump_version package.json $NEW_TARGET_VERSION
-# awk -v version="$NEW_TARGET_VERSION" \
-#   '/"version": ".*?"/ && count < 1 { gsub("\"version\": \".*?\"", "\"version\": \""version"\""); count++ } {print}' package.json > \
-#   package.json_tmp && \
-#   mv package.json_tmp package.json
 if [[ -f "package-lock.json" ]]; then
   bump_version package-lock.json $NEW_TARGET_VERSION
-  # awk -v version="$NEW_TARGET_VERSION" \
-  #   '/"version": ".*?"/ && count < 1 { gsub("\"version\": \".*?\"", "\"version\": \""version"\""); count++ } {print}' package-lock.json > \
-  #   package-lock.json_tmp && \
-  #   mv package-lock.json_tmp package-lock.json
 fi
 
 # commit changes to the branch
@@ -74,9 +66,9 @@ git commit -m "bumped version to v$NEW_TARGET_VERSION"
 git push
 
 # publish package to private Github Packages npm repository
-# echo "//npm.pkg.github.com/:_authToken=${PAT}" >> .npmrc
+PULL_REQUEST_ID=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
 RANDOM_SHA=$(date +%s | sha256sum | base64 | head -c 32)
-bump_version package.json "0.0.0-PR123-$RANDOM_SHA"
+bump_version package.json "0.0.0-PR$PULL_REQUEST_ID-$RANDOM_SHA"
 npm i
 npm run build
-npm publish --tag=PR123
+npm publish --tag="PR$PULL_REQUEST_ID"
