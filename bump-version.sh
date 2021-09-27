@@ -1,6 +1,14 @@
 #!/bin/bash
 
 function join { local IFS="$1"; shift; echo "$*"; }
+function bump_version {
+  local FILE_PATH=$1
+  local NEW_VERSION=$2
+  awk -v version="$NEW_VERSION" \
+    '/"version": ".*?"/ && count < 1 { gsub("\"version\": \".*?\"", "\"version\": \""version"\""); count++ } {print}' $FILE_PATH > \
+    "$FILE_PATH"_tmp && \
+    mv "$FILE_PATH"_tmp $FILE_PATH
+}
 
 CURRENT_GH_BRANCH=$GITHUB_REF
 CURRENT_BRANCH=$GITHUB_HEAD_REF
@@ -44,15 +52,9 @@ echo "version needs to be updated to $NEW_TARGET_VERSION, proceed to bumping rel
 git checkout $CURRENT_BRANCH
 
 # update package.json and package-lock.json with new version
-awk -v version="$NEW_TARGET_VERSION" \
-  '/"version": ".*?"/ && count < 1 { gsub("\"version\": \".*?\"", "\"version\": \""version"\""); count++ } {print}' package.json > \
-  package.json_tmp && \
-  mv package.json_tmp package.json
+bump_version package.json $NEW_TARGET_VERSION
 if [[ -f "package-lock.json" ]]; then
-  awk -v version="$NEW_TARGET_VERSION" \
-    '/"version": ".*?"/ && count < 1 { gsub("\"version\": \".*?\"", "\"version\": \""version"\""); count++ } {print}' package-lock.json > \
-    package-lock.json_tmp && \
-    mv package-lock.json_tmp package-lock.json
+  bump_version package-lock.json $NEW_TARGET_VERSION
 fi
 
 # commit changes to the branch
@@ -62,3 +64,11 @@ git config user.name "$GITHUB_ACTOR"
 git add .
 git commit -m "bumped version to v$NEW_TARGET_VERSION"
 git push
+
+# publish package to private Github Packages npm repository
+PULL_REQUEST_ID=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
+RANDOM_SHA=$(date +%s | sha256sum | base64 | head -c 32)
+bump_version package.json "0.0.0-PR$PULL_REQUEST_ID-$RANDOM_SHA"
+npm i
+npm run build
+npm publish --tag="PR$PULL_REQUEST_ID"
