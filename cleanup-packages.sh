@@ -44,6 +44,6 @@ for i in "${!VERSION_IDS_TO_DELETE[@]}"; do
         -X POST \
         -H "Accept: application/vnd.github.package-deletes-preview+json" \
         -H "Authorization: bearer $GITHUB_TOKEN" \
-        -d "{\"query\":\"mutation { deletePackageVersion(input:{packageVersionId:\\\"$id\\\"}) { success }}\"}" \
+        -d "{\"query\":\"mutation { deletePackageVersion(input:{packageVersionId:\\\"${VERSION_IDS_TO_DELETE[i]}\\\"}) { success }}\"}" \
         https://api.github.com/graphql
 done
