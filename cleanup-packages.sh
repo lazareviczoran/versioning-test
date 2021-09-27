@@ -31,19 +31,15 @@ ACTIVE_VERSIONS_ITEMS=$(curl -s \
     -d '{"query":"'"$query"'"}' \
     https://api.github.com/graphql | jq -r '.data.repository.packages.nodes[0].versions.nodes[]')
 
-echo $ACTIVE_VERSIONS_ITEMS
-
 FILTERED_VERSIONS_ITEMS=$(echo $ACTIVE_VERSIONS_ITEMS \
                             | jq -r ".|select(.version | startswith(\"$TARGET_VERSION_NAME_PREFIX\"))" \
                             | jq -r '.id')
-
-echo $FILTERED_VERSIONS_ITEMS
 
 VERSION_IDS_TO_DELETE=($(echo $FILTERED_VERSIONS_ITEMS))
 for id in "${VERSION_IDS_TO_DELETE[@]}"; do
     curl -X POST \
         -H "Accept: application/vnd.github.package-deletes-preview+json" \
         -H "Authorization: bearer $GITHUB_TOKEN" \
-        -d "{\"query\":\"mutation { deletePackageVersion(input:{packageVersionId:\\\"$id\\\"}) { success }}\"}"
+        -d "{\"query\":\"mutation { deletePackageVersion(input:{packageVersionId:\\\"$id\\\"}) { success }}\"}" \
         https://api.github.com/graphql
 done
