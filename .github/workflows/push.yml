@@ -1,10 +1,9 @@
-name: Update version if necessary and create new prerelease version of the package
+name: Publish new package release
 
 on:
-  pull_request:
+  push:
     branches:
       - main
-    types: [opened, synchronize]
 
 jobs:
   bump-version:
@@ -17,8 +16,10 @@ jobs:
         with:
           node-version: "14.x"
           registry-url: "https://npm.pkg.github.com"
-      - name: bump version
+      - name: publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          ./bump-version.sh
+          npm i
+          npm run build
+          npm publish
