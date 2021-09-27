@@ -1,11 +1,14 @@
 {
-  "name": "versioning-test",
-  "version": "0.1.1",
+  "name": "@lazareviczoran/versioning-test",
+  "version": "0.2.0",
   "description": "A demo project to test automated versioning on.",
   "main": "index.js",
   "scripts": {
     "test": "test"
   },
-  "author": "",
-  "license": "ISC"
+  "author": "Zoran Lazarevic <lazarevic.zoki91@gmail.com>",
+  "license": "ISC",
+  "repository": {
+    "url": "git://github.com/lazareviczoran/versioning-test.git"
+  }
 }

@@ -15,12 +15,5 @@ jobs:
           fetch-depth: "0"
           token: ${{ secrets.PAT }}
       - name: bump version
-        # env:
-        #   GITHUB_PAT: ${{ secrets.PAT }}
         run: |
           ./bump-version.sh
-      # - uses: EndBug/add-and-commit@v7
-      #   with:
-      #     add: "wagr-schema.svg"
-      #     message: "Update schema image"
-      #     branch: ${{ github.head_ref }}
