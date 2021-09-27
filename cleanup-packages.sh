@@ -34,7 +34,7 @@ ACTIVE_VERSIONS_ITEMS=$(curl -s \
 echo $ACTIVE_VERSIONS_ITEMS
 
 FILTERED_VERSIONS_ITEMS=$(echo $ACTIVE_VERSIONS_ITEMS \
-                            | jq -r ".|select(.version | startswith('$TARGET_VERSION_NAME_PREFIX'))" \
+                            | jq -r ".|select(.version | startswith(\"$TARGET_VERSION_NAME_PREFIX\"))" \
                             | jq -r '.id')
 
 echo $FILTERED_VERSIONS_ITEMS

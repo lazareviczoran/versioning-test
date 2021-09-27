@@ -1,6 +1,7 @@
 #!/bin/bash
 
 function join { local IFS="$1"; shift; echo "$*"; }
+
 function bump_version {
   local FILE_PATH=$1
   local NEW_VERSION=$2
@@ -24,6 +25,7 @@ fi
 
 ## move to project root
 cd "$(git rev-parse --show-toplevel)"
+git checkout $CURRENT_BRANCH
 
 ## increment version number from $GITHUB_BASE_REF
 VALUES=($(git show remotes/origin/$GITHUB_BASE_REF:package.json | grep -P '"version": ".*?"' | grep -Po "\d+"))
@@ -41,29 +43,6 @@ NEW_TARGET_VERSION=$(join . ${VALUES[@]})
 
 CURRENT_VERSION_VALUES=($(grep -P '"version": ".*?"' package.json | grep -Po "\d+"))
 CURRENT_VERSION=$(join . ${CURRENT_VERSION_VALUES[@]})
-if [[ "$NEW_TARGET_VERSION" == "$CURRENT_VERSION" ]]; then
-    # current version is already set to target version, exiting script
-    echo "the version is already set properly, stoping execution"
-    exit 0
-fi
-
-echo "version needs to be updated to $NEW_TARGET_VERSION, proceed to bumping relevant files"
-
-git checkout $CURRENT_BRANCH
-
-# update package.json and package-lock.json with new version
-bump_version package.json $NEW_TARGET_VERSION
-if [[ -f "package-lock.json" ]]; then
-  bump_version package-lock.json $NEW_TARGET_VERSION
-fi
-
-# commit changes to the branch
-git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-git config user.name "$GITHUB_ACTOR"
-
-git add .
-git commit -m "bumped version to v$NEW_TARGET_VERSION"
-git push
 
 # publish package to private Github Packages npm repository
 PULL_REQUEST_ID=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
@@ -72,3 +51,24 @@ bump_version package.json "0.0.0-PR$PULL_REQUEST_ID-$RANDOM_SHA"
 npm i
 npm run build
 npm publish --tag="PR$PULL_REQUEST_ID"
+
+if [[ "$NEW_TARGET_VERSION" == "$CURRENT_VERSION" ]]; then
+  # current version is already set to target version, exiting script
+  echo "the version is already set properly"
+else
+  echo "updating version to $NEW_TARGET_VERSION"
+
+  # update package.json and package-lock.json with new version
+  bump_version package.json $NEW_TARGET_VERSION
+  if [[ -f "package-lock.json" ]]; then
+    bump_version package-lock.json $NEW_TARGET_VERSION
+  fi
+
+  # commit changes to the branch
+  git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+  git config user.name "$GITHUB_ACTOR"
+
+  git add .
+  git commit -m "bumped version to v$NEW_TARGET_VERSION"
+  git push
+fi
