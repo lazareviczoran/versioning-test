@@ -15,5 +15,7 @@ jobs:
           fetch-depth: "0"
           token: ${{ secrets.PAT }}
       - name: bump version
+        env:
+          PAT: ${{ secrets.PAT }}
         run: |
           ./bump-version.sh
