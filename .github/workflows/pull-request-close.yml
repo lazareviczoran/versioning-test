@@ -1,9 +1,10 @@
-name: Publish new package release
+name: Update version if necessary and create new prerelease version of the package
 
 on:
-  push:
+  pull_request:
     branches:
       - main
+    types: [closed]
 
 jobs:
   bump-version:
@@ -15,11 +16,8 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: "14.x"
-          registry-url: "https://npm.pkg.github.com"
-      - name: publish
+      - name: bump version
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          npm i
-          npm run build
-          npm publish
+          ./cleanup-packages.sh
