@@ -5,7 +5,7 @@ function bump_version {
   local FILE_PATH=$1
   local NEW_VERSION=$2
   awk -v version="$NEW_VERSION" \
-    '/"version": ".*?"/ && count < 1 { gsub("\"version\": \".*?\"", "\"version\": \""version"\""); count++ } {print}' &FILE_PATH > \
+    '/"version": ".*?"/ && count < 1 { gsub("\"version\": \".*?\"", "\"version\": \""version"\""); count++ } {print}' $FILE_PATH > \
     "$FILE_PATH"_tmp && \
     mv "$FILE_PATH"_tmp $FILE_PATH
 }
