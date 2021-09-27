@@ -21,7 +21,7 @@ query {
 EOF
 )"
 
-echo $GITHUB_EVENT_PATH | jq .
+echo $GITHUB_EVENT_PATH
 
 curl -s \
     -X POST \
