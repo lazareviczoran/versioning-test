@@ -4,7 +4,8 @@
   "description": "A demo project to test automated versioning on.",
   "main": "index.js",
   "scripts": {
-    "test": "test"
+    "test": "test",
+    "build": "npm install"
   },
   "author": "Zoran Lazarevic <lazarevic.zoki91@gmail.com>",
   "license": "ISC",

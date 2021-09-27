@@ -74,6 +74,7 @@ git commit -m "bumped version to v$NEW_TARGET_VERSION"
 git push
 
 # publish package to private Github Packages npm repository
+echo "//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}" >> .npmrc
 RANDOM_SHA=$(date +%s | sha256sum | base64 | head -c 32)
 bump_version package.json "0.0.0-PR123-$RANDOM_SHA"
 npm i
