@@ -21,14 +21,7 @@ query {
 EOF
 )"
 
-echo $GITHUB_EVENT_PATH
-
-curl -s \
-    -X POST \
-    -H "Accept: application/vnd.github.v3+json" \
-    -H "Authorization: bearer $GITHUB_TOKEN" \
-    -d '{"query":"'"$query"'"}' \
-    https://api.github.com/graphql | jq
+cat $GITHUB_EVENT_PATH
 
 # ACTIVE_VERSIONS_ITEMS=$(curl -s \
 #     -X POST \
