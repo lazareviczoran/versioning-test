@@ -1,4 +1,4 @@
-name: Update version if necessary and create new prerelease version of the package
+name: Cleanup temp packages
 
 on:
   pull_request:
@@ -16,7 +16,7 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: "14.x"
-      - name: bump version
+      - name: cleanup package versions
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
