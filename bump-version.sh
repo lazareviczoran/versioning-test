@@ -79,4 +79,4 @@ RANDOM_SHA=$(date +%s | sha256sum | base64 | head -c 32)
 bump_version package.json "0.0.0-PR123-$RANDOM_SHA"
 npm i
 npm run build
-npm publish --tag PR123
+npm publish --tag=PR123
