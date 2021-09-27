@@ -1,4 +1,4 @@
-name: Update version if necessary and create new prerelease version of the package
+name: Cleanup temp packages
 
 on:
   pull_request:
