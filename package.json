@@ -1,6 +1,6 @@
 {
   "name": "@lazareviczoran/versioning-test",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "A demo project to test automated versioning on.",
   "main": "index.js",
   "scripts": {
