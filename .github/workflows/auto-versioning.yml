@@ -22,3 +22,14 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           ./bump-version.sh
+      - name: Create status check
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          BUILD_COMMIT=$(git rev-parse HEAD)
+          curl \
+          -X POST \
+          -H "Authorization: Bearer $GITHUB_TOKEN" \
+          -H "Accept: application/vnd.github.v3+json" \
+          https://api.github.com/repos/lazareviczoran/versioning-test/check-runs \
+          -d '{"name":"bump-version", "head_sha": "'"$BUILD_COMMIT"'", "status": "completed", "conclusion": "success" }'
