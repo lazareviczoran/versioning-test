@@ -69,6 +69,9 @@ else
   git config user.name "$GITHUB_ACTOR"
 
   git add .
-  git commit -m "bumped version to v$NEW_TARGET_VERSION\n\nskip-checks: true"
+  git commit -m "bumped version to v$NEW_TARGET_VERSION
+
+
+  skip-checks: true"
   git push
 fi
